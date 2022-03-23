@@ -1,1 +1,49 @@
-<p>unkokkokko</p>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>miu</title>
+        <meta charset="UTF-8">
+        <!-- <link rel="preload" as="script" href="tab.js"> -->
+    </head>
+
+    <body>
+        <div class="tab-panel">
+            <ul class="tab-group">
+                <li class="tab tab-A is-active">Tab-A</li>
+                <li class="tab tab-B">Tab-B</li>
+                <li class="tab tab-C">Tab-C</li>
+            </ul>
+            
+            <div class="panel-group">
+                <div class="panel tab-A is-show">Content-A</div>
+                <div class="panel tab-B">Content-B</div>
+                <div class="panel tab-C">Content-C</div>
+            </div>
+        </div>
+    </body>
+
+</html>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+	// タブに対してクリックイベントを適用
+	const tabs = document.getElementsByClassName('tab');
+	for(let i = 0; i < tabs.length; i++) {
+		tabs[i].addEventListener('click', tabSwitch);
+	}
+
+	// タブをクリックすると実行する関数
+	function tabSwitch(){
+		// 引数で指定したセレクターと一致する直近の祖先要素を取得
+		const ancestorEle = this.closest('.tab-panel');
+		// タブのclassの値を変更
+		ancestorEle.getElementsByClassName('is-active')[0].classList.remove('is-active');
+		this.classList.add('is-active');
+		// コンテンツのclassの値を変更
+		ancestorEle.getElementsByClassName('is-show')[0].classList.remove('is-show');
+		const groupTabs = ancestorEle.getElementsByClassName('tab');
+		const arrayTabs = Array.prototype.slice.call(groupTabs);
+		const index = arrayTabs.indexOf(this);
+		ancestorEle.getElementsByClassName('panel')[index].classList.add('is-show');
+	};
+});
+</script>
