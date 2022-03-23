@@ -3,47 +3,109 @@
     <head>
         <title>miu</title>
         <meta charset="UTF-8">
-        <!-- <link rel="preload" as="script" href="tab.js"> -->
     </head>
 
     <body>
-        <div class="tab-panel">
-            <ul class="tab-group">
-                <li class="tab tab-A is-active">Tab-A</li>
-                <li class="tab tab-B">Tab-B</li>
-                <li class="tab tab-C">Tab-C</li>
+        <div class="wrap-tab">
+            <ul id="js-tab" class="list-tab">
+                <li class="active">タブ1</li>
+                <li>タブ2</li>
+                <li>タブ3</li>
+                <li>タブ4</li>
             </ul>
             
-            <div class="panel-group">
-                <div class="panel tab-A is-show">Content-A</div>
-                <div class="panel tab-B">Content-B</div>
-                <div class="panel tab-C">Content-C</div>
+            <div class="wrap-tab-content">
+                <div class="tab-content active">
+                    <p>タブ1タブ1タブ1</p>
+                </div>
+                <div class="tab-content">
+                    <p>タブ2タブ2タブ2</p>
+                </div>
+                
+                <div class="tab-content">
+                    <p>タブ3タブ3タブ3</p>
+                </div>
+                
+                <div class="tab-content">
+                    <p>タブ4タブ4タブ4</p>
+                </div>
             </div>
         </div>
     </body>
 
 </html>
-<script>
-document.addEventListener('DOMContentLoaded', function(){
-	// タブに対してクリックイベントを適用
-	const tabs = document.getElementsByClassName('tab');
-	for(let i = 0; i < tabs.length; i++) {
-		tabs[i].addEventListener('click', tabSwitch);
-	}
 
-	// タブをクリックすると実行する関数
-	function tabSwitch(){
-		// 引数で指定したセレクターと一致する直近の祖先要素を取得
-		const ancestorEle = this.closest('.tab-panel');
-		// タブのclassの値を変更
-		ancestorEle.getElementsByClassName('is-active')[0].classList.remove('is-active');
-		this.classList.add('is-active');
-		// コンテンツのclassの値を変更
-		ancestorEle.getElementsByClassName('is-show')[0].classList.remove('is-show');
-		const groupTabs = ancestorEle.getElementsByClassName('tab');
-		const arrayTabs = Array.prototype.slice.call(groupTabs);
-		const index = arrayTabs.indexOf(this);
-		ancestorEle.getElementsByClassName('panel')[index].classList.add('is-show');
-	};
-});
+<style>
+ul{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+p{
+    margin: 0;
+}
+.wrap-tab{
+    overflow: hidden;
+}
+
+.list-tab{
+    display: flex;
+    margin: 0 -2px;
+    border-bottom: 3px solid #5bbee5;
+}
+.list-tab > li{
+    display: block;
+    padding: 0.5em 1em;
+    margin: 0 2px;
+    width: 100%;
+    color: #fff;
+    text-align: center;
+    background: #ccc;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.list-tab .active{
+    background: #5bbee5;
+}
+
+.tab-content{
+    display: none;
+    padding: 1em;
+    border-bottom: 1px solid #5bbee5;
+    border-left: 1px solid #5bbee5;
+    border-right: 1px solid #5bbee5;
+}
+.tab-content.active{
+    display: block;
+}
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function(){   
+        tabs = document.querySelectorAll('#js-tab li');
+            for(i = 0; i < tabs.length; i++) {
+            tabs[i].addEventListener('click', tabSwitch, false);
+            }
+
+        function tabSwitch(){
+            tabs = document.querySelectorAll('#js-tab li');
+            var node = Array.prototype.slice.call(tabs, 0);
+                node.forEach(function (element) {
+                element.classList.remove('active');
+                });
+            this.classList.add('active');
+
+            content = document.querySelectorAll('.tab-content');
+            var node = Array.prototype.slice.call(content, 0);
+                node.forEach(function (element) {
+                element.classList.remove('active');
+                });
+
+            const arrayTabs = Array.prototype.slice.call(tabs);
+            const index = arrayTabs.indexOf(this);
+        
+            document.querySelectorAll('.tab-content')[index].classList.add('active');
+        };
+    });
 </script>
